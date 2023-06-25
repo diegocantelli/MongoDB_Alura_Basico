@@ -1,0 +1,14 @@
+Comandos MongoDb
+
+// Criar um novo BD
+	use(database);
+
+// Criar um novo documento/coleção
+	db.createCollection(collection);
+
+// Deletar uma coleção
+	db.series.drop();
+
+// Deletar um BD
+	db.dropDatabase()
+
