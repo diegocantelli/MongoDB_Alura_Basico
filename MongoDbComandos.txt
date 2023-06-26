@@ -29,7 +29,7 @@ use("Alura_Serie");
 db.series.insertMany([{
     "Série": "Made in Heaven",
     "Temporadas disponíveis": 1,
-    "Linguagem": "Hindi",
+    "Linguagem": "Hindi", 
     "IMdb Avaliação" : 8.3,
     "Classificação": "18+"
 },
@@ -41,4 +41,33 @@ db.series.insertMany([{
     "IMdb Avaliação" : 8.7,
     "Classificação": "16+"
 }]);
+
+
+// Retornando todos os documentos de uma collection
+	db.series.find();
+
+// Retornando todos os documentos de uma collection cujo Ano de lançamento seja igual a 2016
+	db.series.find({"Ano de lancamento": 2016});
+
+// Retornando apenas determinadas "colunas" dentro do documento
+	db.series.find({}, {"Série": 1, "Ano de lancamento": 1, "_id": 0});
+
+// Retornando todos os documentos que possuem ano de lançamento iguais a 2016 ou 2017
+	db.series.find({"Ano de lancamento": {$in: [2016, 2017]}});
+
+// Limitando o retorno dos documentos
+	db.series.find().limit(2);
+
+// Ordenando o retorno da busca com base em um campo específico
+	db.series.find().sort({"Série": 1});
+
+// Retornando os documentos com base no filtro gte
+	db.series.find({"Temporadas disponíveis": {$gte: 2}});
+
+// Retornando os documentos cujo o valor seja diferente do informado no filtro
+	db.series.find({"Temporadas disponíveis": {$ne: 2}});
+
+// Retornando documentos que possuem um array com determinado valor
+	db.series.find({"Genero": {$all: ["Drama"]}});
+
 
