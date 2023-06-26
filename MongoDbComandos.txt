@@ -71,3 +71,17 @@ db.series.insertMany([{
 	db.series.find({"Genero": {$all: ["Drama"]}});
 
 
+// Atualizando um documento e adicionando uma nova propriedade ao mesmo caso essa não exista
+	db.series.updateOne({"Série": "Made in Heaven"}, {$set: {"Ano de lancamento": 2015}});
+
+// Atualizando todos os documentos cujo o texto da propriedade Série esteja dentro do array informado
+// e adiciona ou atualiza a propriedade Classificação nos documentos retornados
+	db.series.updateMany({"Série":{$in:["Homecoming", "Fleabag"]}},{$set: {"Classificação": "18+"}})
+
+// É possível substituir um documento inteiro com base no filtro utilizando o método replaceOne
+	db.collection.replaceOne(
+   		<filter>,
+   		<replacement> )
+
+
+
