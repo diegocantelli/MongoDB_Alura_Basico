@@ -83,5 +83,52 @@ db.series.insertMany([{
    		<filter>,
    		<replacement> )
 
+// Deletando apenas um documento com base em um filtro especificado
+	db.series.deleteOne({"Série": "The Boys"})
+
+// Deletando vários documentos com base em um filtro especificado
+	db.series.deleteMany({"Temporadas disponíveis": 1})
+
+// Deletando todos os documentos de uma coleção
+	db.series.deleteMany({})
+
+
+// criando uma collection com um validador dos campos
+
+db.createCollection("clientes", 
+    {
+        validator: {
+            $jsonSchema: {
+                bsonType: "object",
+                required: ["nome", "cpf", "status_civil", "data_nascimento", "endereco"],
+                properties: {
+                    nome: {
+                        bsonType: "string",
+                        description: "Informe corretamente o nome do cliente"
+                    },
+                    cpf: {
+                        bsonType: "string",
+                        description: "Informe corretamente o cpf do cliente"
+                    },
+                    status_civil: {
+                        bsonType: "string",
+                        enum:["Solteiro(a)", "Casado(a)", "Separado(a)", "Divorciado(a)", "Viúvo(a)"],
+                        description: "informe corretamente o status civil do cliente"
+                    },
+                    data_nascimento: {
+                        bsonType: "string",
+                        description: "Informe corretamente a data de nascimento do cliente"
+                    },
+                    endereco:{
+                        bsonType: "string",
+                        description: "informe corretamente o endereço do cliente"
+                    }
+                }
+            }
+        }
+    })
+
+
+
 
 
