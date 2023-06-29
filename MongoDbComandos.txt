@@ -129,6 +129,43 @@ db.createCollection("clientes",
     })
 
 
+// Obtendo os validadores de cada collection
+	db.getCollectionInfos({name: "clientes"})
+
+
+// Identificando documentos válidos
+	let clientes = 
+ {    $jsonSchema: 
+    {      required: [ "nome", "cpf",  "status_civil", "data_nascimento", "endereco" ],
+      properties: 
+      {         nome: {
+            bsonType: "string",
+            maxLength: 150,
+            description: "O nome do cliente deve ser informado corretamente"
+         },         cpf: {
+            bsonType: "string",
+            minLength:14,
+            maxLength: 14,
+            description: "O CPF do cliente deve ser informado"
+         },         status_civil: {
+            enum: [ "Solteiro(a)", "Casado(a)", "Separado(a)", "Divorciado(a)", "Viúvo(a)" ],
+            description: "Informe um dos valores presentes em ENUM"
+         },         data_nascimento: {
+            bsonType: "string",
+            description: "A data de nascimento do cliente deve ser informado corretamente"
+         },         endereco: {
+            bsonType: "string",
+            description: "O endereço do cliente deve ser informado corretamente"
+         }         }     }   } 
+
+// Identifica documentos que sao validos
+db.clientes.find(contas)
+
+// identifica documentos invalidos
+db.clientes.find( { $nor: [ contas ] } )
+
+
+
 
 
 
