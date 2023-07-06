@@ -204,6 +204,13 @@ db.endereco.insertOne({
 })
 
 
+// Retornando o nome do banco no qual estamos conectados
+	db.getName()
+
+// Renomeando uma collection
+	db.Endereco.renameCollection("Enderecos")
+
+
 
 
 
