@@ -283,4 +283,18 @@ db.endereco.insertOne({
             $slice: 1
     }})
 
+// Limitando o quantidade de registros retornados através do limit
+	db.Clientes.find({}).limit(1)
+
+// Utilizando o skip para "pular" uma certa quantidade de registros
+	db.Clientes.find({}).limit(5).skip(10)
+
+// Ordenando os documentos de forma crescente
+	db.Clientes.find().sort({ nome:1 })
+
+// Ordenando os documentos de forma decrescente
+	db.Clientes.find().sort({ nome:-1 })	
+
+// Utilizando o distinct
+	db.Contas.distinct("tipo")
 
