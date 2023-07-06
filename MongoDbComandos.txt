@@ -211,7 +211,76 @@ db.endereco.insertOne({
 	db.Endereco.renameCollection("Enderecos")
 
 
+// Utilizando o operador $eq para busca utilizando operador de igualdade
+	db.Clientes.find({genero: {$eq: "Masculino"}})
+
+// Utilizando o operador $gt(maior que)
+	db.Contas.find({valor: {$gt: 9000}})
+
+// Utilizando o operador $in para buscar documentos com base num array de valores
+	db.Clientes.find({status_civil: {$in:["Viúvo(a)", "Casado(a)"]}})
+
+// Utilizando o operador $and
+	db.Contas.find(
+    {
+        $and: [
+            {
+                tipo: {$eq: "Conta salário"}
+            }, 
+            {
+                valor: {$gt: 9000}
+            }]
+    })
 
 
+// Utilizando o operador $or
+	db.Contas.find(
+    {
+        $or: [
+            {
+                tipo: {$eq: "Conta salário"}
+            }, 
+            {
+                valor: {$gt: 9000}
+            }]
+    })
+
+
+// Utilizando o operador $not
+	db.Enderecos.find(
+    {
+        estado: {
+            $not:{
+                $eq:"SP"
+            }
+        }
+    })
+
+
+// Utilizando o operador $exists para verificar documentos que possuam determinado campo apenas
+	db.Clientes.find({
+    		dependentes: {
+        		$exists: true
+    		}
+	})
+
+
+// Retorna todos os registros cujo o array seguros contenha os valores informados no filtro
+	db.Clientes.find({seguros: {$all: ["seguro de vida", "seguro para carro"]}})
+
+// Retorna todos os registros cujo o array dependentes possua 2 elementos
+	db.Clientes.find({dependentes: {$size:2}})
+
+// Com base nos registros que possuem 2 dependentes, irá retornar apenas 1 dependente
+	db.Clientes.find(
+    {
+        dependentes: {
+            $size:2
+        }
+    }, 
+    {
+        dependentes:{
+            $slice: 1
+    }})
 
 
