@@ -298,3 +298,93 @@ db.endereco.insertOne({
 // Utilizando o distinct
 	db.Contas.distinct("tipo")
 
+// Utilizando aggregate
+	-- total de clientes será o nome da "coluna" que irá armazenar o total de clientes
+	db.Clientes.aggregate({$count: "total de clientes"})
+
+// Retornando a quantidade de documentos por tipo de conta
+	db.Contas.aggregate(
+    {
+        $group: {
+            _id: "$tipo",
+            contagem: {
+                $count: {
+                    
+                }
+            }
+        }
+    })
+
+
+// Utilizando aggregate com múltiplos estágios
+	db.Contas.aggregate([
+       {
+         $limit: 3
+       },
+       {
+         $skip: 1
+       }
+       ])
+
+// Unwind: para cada elemento de um determinado array, será retornado um novo documento
+	db.Clientes.aggregate([{$unwind: "$seguros"}])
+
+// SortByCount: retorna a contagem dos elementos retornados pelo unwind
+	db.Clientes.aggregate([{$unwind: "$seguros"}, {$sortByCount: "$genero"}])
+
+// Utilizando o match para filtrar documentos
+	db.Enderecos.aggregate([{$match: {cidade: "Recife"}}])
+
+
+// Utilizando lookup para buscar documentos relacionados em outra collection
+	db.Clientes.aggregate([{
+    $lookup: {
+           from: "Contas",
+           localField: "cpf",
+           foreignField: "cpf",
+           as: "clientes_contas"
+         }
+}])
+
+
+// Utilizando o project no aggregate para retornar apenas os campos desejados
+	db.Clientes.aggregate([{
+    $lookup: {
+           from: "Contas",
+           localField: "cpf",
+           foreignField: "cpf",
+           as: "clientes_contas"
+         }
+    },
+    {
+        $project: {
+            _id:0,
+            data_nascimento: 0,
+            genero: 0,
+            profissao: 0
+        }
+    }])
+
+
+// Utilizando o limit dentro do aggregate para retornar apenas a quantidade de elementos especificados
+	db.Clientes.aggregate([{
+    $lookup: {
+           from: "Contas",
+           localField: "cpf",
+           foreignField: "cpf",
+           as: "clientes_contas"
+         }
+    },
+    {
+        $project: {
+            _id:0,
+            data_nascimento: 0,
+            genero: 0,
+            profissao: 0
+        }
+    }, 
+    {
+        $limit: 5
+    }])
+
+
