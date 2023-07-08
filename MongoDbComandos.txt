@@ -388,3 +388,93 @@ db.endereco.insertOne({
     }])
 
 
+// Projetando uma nova coluna com valor calculado
+	db.Contas.aggregate([
+    {
+        $project:{
+            _id:0,
+            valor:1,
+            dividido:{
+                $divide:["$valor", 2]
+            }
+        }
+    }
+])
+
+
+// Efetuando o parse de uma coluna com valor calculado
+db.Contas.aggregate([
+    {
+        $project:{
+            _id:0,
+            valor:1,
+            dividido:{
+                $divide:[{$toDouble:"$valor"}, 2]
+            }
+        }
+    }
+])
+
+
+// Utilizando o concat para concatenar valores
+db.Clientes.aggregate([
+    {
+        $project: {
+            descricao: {
+                $concat: ["$nome", "-", "$cpf"]
+            }
+        }
+    }])
+
+
+// Convertendo valores para string
+db.Contas.aggregate(
+    {
+        $project: {
+            valor: {
+                $toString: "$valor" 
+            }
+        }
+    })
+
+
+// Retorna a media dos valores para cada tipo de conta presente na collection
+db.Contas.aggregate(
+    {
+        $group:{
+            _id:"$tipo",
+            media:{
+                $avg:"$valor"
+            }
+        }
+    })
+
+
+// Retorna o total e a media dos valores agrupados pelo tipo de conta
+b.Contas.aggregate({
+    $group: { 
+        _id: "$tipo",
+        valor_total: {
+            $max: "$valor"
+        },
+        valor_medio: {
+            $avg: "$valor"
+        }
+    }
+})
+
+// Retorna o total e a média apenas das contas do tipo "Conta poupança"
+db.Contas.aggregate([
+    {$match:{tipo:"Conta poupança"}},
+    { $group:{
+            _id:"$tipo",
+                Total:{
+                    $sum:"$valor"
+            }, 
+                Media:{
+                    $avg:"$valor"
+                }    
+        }
+    }
+)
+
