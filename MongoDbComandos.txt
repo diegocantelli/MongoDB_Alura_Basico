@@ -478,3 +478,23 @@ db.Contas.aggregate([
     }
 )
 
+// Utilizando o operador #cond para criar condicionais
+db.Contas.aggregate([{
+   $project:{
+         cpf:1,
+             tipo:1,
+             valores:{
+                 $cond:[{$gte:["$valor",8000]}, "VERDADEIRO", "FALSO"]
+             }
+        }
+}])
+
+// Utilizando o operador ifNull para criar uma condicional com base em valores nulos
+db.Contas.aggregate([{
+    $project:{
+            valor:{
+                    $ifNull:["$valor", "Não Especificado"]
+                }
+       }
+}])
+
